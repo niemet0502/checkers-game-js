@@ -14,6 +14,15 @@ class Piece {
   }
 }
 
+function displayCurrentPlayer() {
+  var container = document.getElementById("next-player");
+  if (container.classList.contains("whitePiece")) {
+    container.setAttribute("class", "occupied blackPiece");
+  } else {
+    container.setAttribute("class", "occupied whitePiece");
+  }
+}
+
 let game = document.getElementById("game");
 let readyToMove = null;
 let posNewPosition = [];
@@ -91,17 +100,12 @@ function builBoard() {
 }
 
 function checkIfPieceCanMove(row, column) {
+  // check your type of piece white or black
   if (whoCanMove === -1) {
-    // check your type of piece white or black
     if (
       matrix[parseInt(row) + 1][parseInt(column) + 1] === 0 ||
       matrix[parseInt(row) + 1][parseInt(column) - 1] === 0
     ) {
-      console.log("can move");
-      // save the piece that want to move
-      // save where it can move
-      // make their background green
-
       // save the piece that want to move
       readyToMove = new Piece(row, column);
 
@@ -137,7 +141,9 @@ function checkIfPieceCanMove(row, column) {
       }
     }
   } else {
+    // if you are player WHITE
     if (
+      // check if you can move the current piece
       matrix[row - 1][column - 1] === 0 ||
       matrix[row - 1][parseInt(column) + 1] === 0
     ) {
@@ -174,6 +180,28 @@ function checkIfPieceCanMove(row, column) {
           new Piece(parseInt(parseInt(row) - 1), parseInt(parseInt(column) + 1))
         );
       }
+    }
+
+    // check if you can capture an adversaire's piece
+
+    if (
+      matrix[row - 1][column + 1] === -1 &&
+      matrix[row - 2][column + 2] === 0
+    ) {
+      console.log("here to");
+      attribute =
+        parseInt(parseInt(row) - 2) + "-" + parseInt(parseInt(column) + 2);
+      possibility = document.querySelector(
+        "[data-position='" + attribute + "']"
+      );
+      possibility.style.background = "green";
+
+      // save where it can move
+      posNewPosition.push(
+        new Piece(parseInt(parseInt(row) - 2), parseInt(parseInt(column) + 2))
+      );
+
+      console.log(posNewPosition);
     }
   }
 }
@@ -212,6 +240,7 @@ function movePiece(e) {
       } else {
         whoCanMove = -1;
       }
+      displayCurrentPlayer();
       builBoard();
     } else {
       builBoard();
@@ -220,7 +249,7 @@ function movePiece(e) {
 
   //check if you're allowed to play
   if (whoCanMove === matrix[row][column]) {
-    checkIfPieceCanMove(row, column);
+    checkIfPieceCanMove(parseInt(row), parseInt(column));
   }
 }
 

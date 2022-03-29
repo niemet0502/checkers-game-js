@@ -1,3 +1,7 @@
+body {
+  background-color: red;
+}
+
 .container {
   /* background-color: red; */
   position: fixed;
@@ -8,6 +12,26 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-direction: column;
+  gap: 30px;
+}
+.next-player {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  font-size: 20px;
+}
+.occupied {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+}
+.occupied.whitePiece {
+  background-color: white;
+}
+
+.occupied.blackPiece {
+  background-color: black;
 }
 
 body {
