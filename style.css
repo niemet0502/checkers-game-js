@@ -15,6 +15,17 @@ body {
   flex-direction: column;
   gap: 30px;
 }
+
+.counter {
+  display: flex;
+  gap: 20px;
+}
+.counter div {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
 .next-player {
   display: flex;
   align-items: center;
