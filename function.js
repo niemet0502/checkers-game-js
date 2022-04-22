@@ -19,8 +19,6 @@ function movePiece(e) {
 function enableToMove(p) {
   let find = false;
   let newPosition = null;
-  console.log("enable to move");
-
   // check if the case where the player play the selected piece can move on
   posNewPosition.forEach((element) => {
     if (element.compare(p)) {
@@ -30,21 +28,16 @@ function enableToMove(p) {
     }
   });
 
-  if (find) {
-    moveThePiece(newPosition);
-  } else {
-    builBoard();
-  }
+  if (find) moveThePiece(newPosition);
+  else builBoard();
 }
 
 function moveThePiece(newPosition) {
-  console.log("move move");
   // if the current piece can move on, edit the board and rebuild
   matrix[newPosition.row][newPosition.column] = whoCanMove;
   matrix[readyToMove.row][readyToMove.column] = 0;
 
-  // reinit ready to move value
-
+  // init value
   readyToMove = null;
   posNewPosition = [];
 
@@ -53,7 +46,7 @@ function moveThePiece(newPosition) {
   } else {
     whoCanMove = -1;
   }
-  // displayCurrentPlayer();
+  displayCurrentPlayer();
   builBoard();
 }
 
@@ -156,5 +149,14 @@ function builBoard() {
     }
 
     game.appendChild(row);
+  }
+}
+
+function displayCurrentPlayer() {
+  var container = document.getElementById("next-player");
+  if (container.classList.contains("whitePiece")) {
+    container.setAttribute("class", "occupied blackPiece");
+  } else {
+    container.setAttribute("class", "occupied whitePiece");
   }
 }
