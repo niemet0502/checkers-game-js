@@ -6,6 +6,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
     <link rel="stylesheet" href="style.css" />
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"
+      integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm"
+      crossorigin="anonymous"
+    />
   </head>
   <body>
     <div class="container">
@@ -15,6 +21,9 @@
       </div>
       <div class="game" id="game"></div>
       <div class="counter">
+        <div style="color: green; cursor: pointer" onclick="returnBack()">
+          Test
+        </div>
         <div>
           <div class="occupied whitePiece"></div>
           <span id="white-player-count-pieces">10</span>
@@ -26,6 +35,7 @@
       </div>
     </div>
 
-    <script src="index.js"></script>
+    <script src="function.js"></script>
+    <script src="script.js"></script>
   </body>
 </html>
