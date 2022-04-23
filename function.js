@@ -193,7 +193,7 @@ function builBoard() {
       }
 
       //display the number of piece for each player
-      // displayCounter(black, white);
+      displayCounter(black, white);
     }
 
     game.appendChild(row);
@@ -273,4 +273,11 @@ function findPieceCaptured(p, player) {
   }
 
   return found;
+}
+
+function displayCounter(black, white) {
+  var blackContainer = document.getElementById("black-player-count-pieces");
+  var whiteContainer = document.getElementById("white-player-count-pieces");
+  blackContainer.innerHTML = black;
+  whiteContainer.innerHTML = white;
 }
