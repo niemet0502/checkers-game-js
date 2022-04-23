@@ -4,15 +4,58 @@ function movePiece(e) {
   const column = parseInt(piece.getAttribute("column"));
   let p = new Piece(row, column);
 
-  if (
-    posNewPosition.length > 0 &&
-    whoCanMove === matrix[readyToMove.row][readyToMove.column]
-  ) {
-    enableToMove(p);
+  console.log(p);
+  console.log(capturedPosition);
+  console.log(posNewPosition);
+
+  if (capturedPosition.length > 0) {
+    enableToCapture(p);
+  } else {
+    if (posNewPosition.length > 0) {
+      enableToMove(p);
+    }
   }
 
   if (whoCanMove === matrix[row][column]) {
     checkIfPieceCanMove(p);
+  }
+}
+
+function enableToCapture(p) {
+  let find = false;
+  let pos = null;
+  capturedPosition.forEach((element) => {
+    if (element.newPosition.compare(p)) {
+      find = true;
+      pos = element.newPosition;
+      old = element.pieceCaptured;
+      return;
+    }
+  });
+
+  if (find) {
+    // if the current piece can move on, edit the board and rebuild
+    matrix[pos.row][pos.column] = whoCanMove; // move the piece
+    matrix[readyToMove.row][readyToMove.column] = 0; // delete the old position
+    // delete the piece that had been captured
+    matrix[old.row][old.column] = 0;
+
+    // reinit ready to move value
+
+    readyToMove = null;
+    capturedPosition = [];
+    posNewPosition = [];
+    displayCurrentPlayer();
+    builBoard();
+    // check if there are possibility to capture other piece
+
+    if (whoCanMove === -1) {
+      whoCanMove = 1;
+    } else {
+      whoCanMove = -1;
+    }
+  } else {
+    builBoard();
   }
 }
 
@@ -40,6 +83,7 @@ function moveThePiece(newPosition) {
   // init value
   readyToMove = null;
   posNewPosition = [];
+  capturedPosition = [];
 
   if (whoCanMove === -1) {
     whoCanMove = 1;
@@ -53,10 +97,14 @@ function moveThePiece(newPosition) {
 function checkIfPieceCanMove(p) {
   if (whoCanMove === -1) {
     // black player
-    findPossibleNewPosition(p, 1);
+    if (!findPieceCaptured(p, 1)) {
+      findPossibleNewPosition(p, 1);
+    }
   } else {
     //white player
-    findPossibleNewPosition(p, -1);
+    if (!findPieceCaptured(p, -1)) {
+      findPossibleNewPosition(p, -1);
+    }
   }
 }
 
@@ -72,7 +120,7 @@ function findPossibleNewPosition(piece, player) {
   }
 }
 
-function markPossiblePosition(p, player, direction) {
+function markPossiblePosition(p, player = 0, direction = 0) {
   attribute = parseInt(p.row + player) + "-" + parseInt(p.column + direction);
 
   position = document.querySelector("[data-position='" + attribute + "']");
@@ -159,4 +207,70 @@ function displayCurrentPlayer() {
   } else {
     container.setAttribute("class", "occupied whitePiece");
   }
+}
+
+function findPieceCaptured(p, player) {
+  let found = false;
+
+  if (
+    matrix[p.row - 1][p.column - 1] === player &&
+    matrix[p.row - 2][p.column - 2] === 0
+  ) {
+    found = true;
+    newPosition = new Piece(p.row - 2, p.column - 2);
+    readyToMove = p;
+    markPossiblePosition(newPosition);
+    // save the new position and the opponent's piece position
+    capturedPosition.push({
+      newPosition: new Piece(),
+      pieceCaptured: new Piece(),
+    });
+  }
+
+  if (
+    matrix[p.row - 1][p.column + 1] === player &&
+    matrix[p.row - 2][p.column + 2] === 0
+  ) {
+    found = true;
+    newPosition = new Piece(p.row - 2, p.column + 2);
+    readyToMove = p;
+    markPossiblePosition(newPosition);
+    // save the new position and the opponent's piece position
+    capturedPosition.push({
+      newPosition: newPosition,
+      pieceCaptured: new Piece(p.row - 1, p.column + 1),
+    });
+  }
+
+  if (
+    matrix[p.row + 1][p.column - 1] === player &&
+    matrix[p.row + 2][p.column - 2] === 0
+  ) {
+    found = true;
+    newPosition = new Piece(p.row + 2, p.column - 2);
+    readyToMove = p;
+    markPossiblePosition(newPosition);
+    // save the new position and the opponent's piece position
+    capturedPosition.push({
+      newPosition: newPosition,
+      pieceCaptured: new Piece(p.row + 1, p.column - 1),
+    });
+  }
+
+  if (
+    matrix[p.row + 1][p.column + 1] === player &&
+    matrix[p.row + 2][p.column + 2] === 0
+  ) {
+    found = true;
+    newPosition = new Piece(p.row + 2, p.column + 2);
+    readyToMove = p;
+    markPossiblePosition(newPosition);
+    // save the new position and the opponent's piece position
+    capturedPosition.push({
+      newPosition: newPosition,
+      pieceCaptured: new Piece(p.row + 1, p.column + 1),
+    });
+  }
+
+  return found;
 }
