@@ -1,9 +1,10 @@
+
 body {
-  background-color: red;
+  margin: 0;
+  padding: 0;
 }
 
 .container {
-  /* background-color: red; */
   position: fixed;
   width: 100%;
   height: 100%;
@@ -19,6 +20,10 @@ body {
 .counter {
   display: flex;
   gap: 20px;
+  background-color: #ecc59a;
+  padding: 10px 20px;
+  border: 1px solid #ecc59a; 
+  border-radius: 5px;
 }
 .counter div {
   display: flex;
@@ -45,10 +50,6 @@ body {
   background-color: black;
 }
 
-body {
-  margin: 0;
-  padding: 0;
-}
 
 .game {
   background-color: #4c382e;
