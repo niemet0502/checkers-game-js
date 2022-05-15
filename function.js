@@ -4,9 +4,6 @@ function movePiece(e) {
   const column = parseInt(piece.getAttribute("column"));
   let p = new Piece(row, column);
 
-  console.log(p);
-  console.log(capturedPosition);
-  console.log(posNewPosition);
 
   if (capturedPosition.length > 0) {
     enableToCapture(p);
@@ -16,8 +13,11 @@ function movePiece(e) {
     }
   }
 
-  if (whoCanMove === matrix[row][column]) {
-    checkIfPieceCanMove(p);
+  if (currentPlayer === matrix[row][column]) {
+    player = reverse(currentPlayer);
+    if (!findPieceCaptured(p, player)) {
+      findPossibleNewPosition(p, player);
+    }
   }
 }
 
@@ -35,7 +35,7 @@ function enableToCapture(p) {
 
   if (find) {
     // if the current piece can move on, edit the board and rebuild
-    matrix[pos.row][pos.column] = whoCanMove; // move the piece
+    matrix[pos.row][pos.column] = currentPlayer; // move the piece
     matrix[readyToMove.row][readyToMove.column] = 0; // delete the old position
     // delete the piece that had been captured
     matrix[old.row][old.column] = 0;
@@ -48,12 +48,7 @@ function enableToCapture(p) {
     displayCurrentPlayer();
     builBoard();
     // check if there are possibility to capture other piece
-
-    if (whoCanMove === -1) {
-      whoCanMove = 1;
-    } else {
-      whoCanMove = -1;
-    }
+    currentPlayer = reverse(currentPlayer);
   } else {
     builBoard();
   }
@@ -77,7 +72,7 @@ function enableToMove(p) {
 
 function moveThePiece(newPosition) {
   // if the current piece can move on, edit the board and rebuild
-  matrix[newPosition.row][newPosition.column] = whoCanMove;
+  matrix[newPosition.row][newPosition.column] = currentPlayer;
   matrix[readyToMove.row][readyToMove.column] = 0;
 
   // init value
@@ -85,27 +80,10 @@ function moveThePiece(newPosition) {
   posNewPosition = [];
   capturedPosition = [];
 
-  if (whoCanMove === -1) {
-    whoCanMove = 1;
-  } else {
-    whoCanMove = -1;
-  }
+  currentPlayer = reverse(currentPlayer);
+
   displayCurrentPlayer();
   builBoard();
-}
-
-function checkIfPieceCanMove(p) {
-  if (whoCanMove === -1) {
-    // black player
-    if (!findPieceCaptured(p, 1)) {
-      findPossibleNewPosition(p, 1);
-    }
-  } else {
-    //white player
-    if (!findPieceCaptured(p, -1)) {
-      findPossibleNewPosition(p, -1);
-    }
-  }
 }
 
 function findPossibleNewPosition(piece, player) {
@@ -211,7 +189,6 @@ function displayCurrentPlayer() {
 
 function findPieceCaptured(p, player) {
   let found = false;
-
   if (
     matrix[p.row - 1][p.column - 1] === player &&
     matrix[p.row - 2][p.column - 2] === 0
@@ -280,4 +257,8 @@ function displayCounter(black, white) {
   var whiteContainer = document.getElementById("white-player-count-pieces");
   blackContainer.innerHTML = black;
   whiteContainer.innerHTML = white;
+}
+
+function reverse(player){
+  return player === -1 ? 1 : -1 ;
 }
