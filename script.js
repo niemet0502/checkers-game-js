@@ -10,10 +10,10 @@ class Piece {
 }
 
 let game = document.getElementById("game");
-let whoCanMove = 1;
+let currentPlayer = 1;
 let posNewPosition = [];
 let capturedPosition = [];
-let matrix = [
+let board = [
   [0, -1, 0, -1, 0, -1, 0, -1, 0, -1],
   [-1, 0, -1, 0, -1, 0, -1, 0, -1, 0],
   [0, -1, 0, -1, 0, -1, 0, -1, 0, -1],

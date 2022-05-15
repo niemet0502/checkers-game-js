@@ -13,7 +13,7 @@ function movePiece(e) {
     }
   }
 
-  if (currentPlayer === matrix[row][column]) {
+  if (currentPlayer === board[row][column]) {
     player = reverse(currentPlayer);
     if (!findPieceCaptured(p, player)) {
       findPossibleNewPosition(p, player);
@@ -35,10 +35,10 @@ function enableToCapture(p) {
 
   if (find) {
     // if the current piece can move on, edit the board and rebuild
-    matrix[pos.row][pos.column] = currentPlayer; // move the piece
-    matrix[readyToMove.row][readyToMove.column] = 0; // delete the old position
+    board[pos.row][pos.column] = currentPlayer; // move the piece
+    board[readyToMove.row][readyToMove.column] = 0; // delete the old position
     // delete the piece that had been captured
-    matrix[old.row][old.column] = 0;
+    board[old.row][old.column] = 0;
 
     // reinit ready to move value
 
@@ -72,8 +72,8 @@ function enableToMove(p) {
 
 function moveThePiece(newPosition) {
   // if the current piece can move on, edit the board and rebuild
-  matrix[newPosition.row][newPosition.column] = currentPlayer;
-  matrix[readyToMove.row][readyToMove.column] = 0;
+  board[newPosition.row][newPosition.column] = currentPlayer;
+  board[readyToMove.row][readyToMove.column] = 0;
 
   // init value
   readyToMove = null;
@@ -87,12 +87,12 @@ function moveThePiece(newPosition) {
 }
 
 function findPossibleNewPosition(piece, player) {
-  if (matrix[piece.row + player][piece.column + 1] === 0) {
+  if (board[piece.row + player][piece.column + 1] === 0) {
     readyToMove = piece;
     markPossiblePosition(piece, player, 1);
   }
 
-  if (matrix[piece.row + player][piece.column - 1] === 0) {
+  if (board[piece.row + player][piece.column - 1] === 0) {
     readyToMove = piece;
     markPossiblePosition(piece, player, -1);
   }
@@ -113,8 +113,8 @@ function builBoard() {
   game.innerHTML = "";
   let black = 0;
   let white = 0;
-  for (let i = 0; i < matrix.length; i++) {
-    const element = matrix[i];
+  for (let i = 0; i < board.length; i++) {
+    const element = board[i];
     let row = document.createElement("div"); // create div for each row
     row.setAttribute("class", "row");
 
@@ -140,9 +140,9 @@ function builBoard() {
       }
 
       // add the piece if the case isn't empty
-      if (matrix[i][j] === 1) {
+      if (board[i][j] === 1) {
         occupied = "whitePiece";
-      } else if (matrix[i][j] === -1) {
+      } else if (board[i][j] === -1) {
         occupied = "blackPiece";
       } else {
         occupied = "empty";
@@ -164,9 +164,9 @@ function builBoard() {
       row.appendChild(col);
 
       // counter number of each piece
-      if (matrix[i][j] === -1) {
+      if (board[i][j] === -1) {
         black++;
-      } else if (matrix[i][j] === 1) {
+      } else if (board[i][j] === 1) {
         white++;
       }
 
@@ -190,8 +190,8 @@ function displayCurrentPlayer() {
 function findPieceCaptured(p, player) {
   let found = false;
   if (
-    matrix[p.row - 1][p.column - 1] === player &&
-    matrix[p.row - 2][p.column - 2] === 0
+    board[p.row - 1][p.column - 1] === player &&
+    board[p.row - 2][p.column - 2] === 0
   ) {
     found = true;
     newPosition = new Piece(p.row - 2, p.column - 2);
@@ -205,8 +205,8 @@ function findPieceCaptured(p, player) {
   }
 
   if (
-    matrix[p.row - 1][p.column + 1] === player &&
-    matrix[p.row - 2][p.column + 2] === 0
+    board[p.row - 1][p.column + 1] === player &&
+    board[p.row - 2][p.column + 2] === 0
   ) {
     found = true;
     newPosition = new Piece(p.row - 2, p.column + 2);
@@ -220,8 +220,8 @@ function findPieceCaptured(p, player) {
   }
 
   if (
-    matrix[p.row + 1][p.column - 1] === player &&
-    matrix[p.row + 2][p.column - 2] === 0
+    board[p.row + 1][p.column - 1] === player &&
+    board[p.row + 2][p.column - 2] === 0
   ) {
     found = true;
     newPosition = new Piece(p.row + 2, p.column - 2);
@@ -235,8 +235,8 @@ function findPieceCaptured(p, player) {
   }
 
   if (
-    matrix[p.row + 1][p.column + 1] === player &&
-    matrix[p.row + 2][p.column + 2] === 0
+    board[p.row + 1][p.column + 1] === player &&
+    board[p.row + 2][p.column + 2] === 0
   ) {
     found = true;
     newPosition = new Piece(p.row + 2, p.column + 2);
