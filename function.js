@@ -259,6 +259,15 @@ function displayCounter(black, white) {
   whiteContainer.innerHTML = white;
 }
 
+
+function modalOpen() {
+  modal.classList.add('effect');
+};
+
+function modalClose() {
+    modal.classList.remove('effect');
+  };
+
 function reverse(player){
   return player === -1 ? 1 : -1 ;
 }
