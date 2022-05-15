@@ -8,7 +8,7 @@ class Piece {
     return piece.row === this.row && piece.column === this.column;
   }
 }
-
+const modal = document.getElementById('easyModal');
 let game = document.getElementById("game");
 let currentPlayer = 1;
 let posNewPosition = [];
