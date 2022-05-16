@@ -4,7 +4,6 @@ function movePiece(e) {
   const column = parseInt(piece.getAttribute("column"));
   let p = new Piece(row, column);
 
-
   if (capturedPosition.length > 0) {
     enableToCapture(p);
   } else {
@@ -14,6 +13,7 @@ function movePiece(e) {
   }
 
   if (currentPlayer === board[row][column]) {
+    console.log(p);
     player = reverse(currentPlayer);
     if (!findPieceCaptured(p, player)) {
       findPossibleNewPosition(p, player);
@@ -176,6 +176,10 @@ function builBoard() {
 
     game.appendChild(row);
   }
+
+  if (black === 0 || white === 0) {
+    modalOpen(black);
+  }
 }
 
 function displayCurrentPlayer() {
@@ -199,8 +203,8 @@ function findPieceCaptured(p, player) {
     markPossiblePosition(newPosition);
     // save the new position and the opponent's piece position
     capturedPosition.push({
-      newPosition: new Piece(),
-      pieceCaptured: new Piece(),
+      newPosition: newPosition,
+      pieceCaptured: new Piece(p.row - 1, p.column - 1),
     });
   }
 
@@ -249,6 +253,7 @@ function findPieceCaptured(p, player) {
     });
   }
 
+  console.log(capturedPosition);
   return found;
 }
 
@@ -259,15 +264,16 @@ function displayCounter(black, white) {
   whiteContainer.innerHTML = white;
 }
 
-
-function modalOpen() {
-  modal.classList.add('effect');
-};
+function modalOpen(black) {
+  document.getElementById("winner").innerHTML = black === 0 ? "White" : "Black";
+  document.getElementById("loser").innerHTML = black !== 0 ? "White" : "Black";
+  modal.classList.add("effect");
+}
 
 function modalClose() {
-    modal.classList.remove('effect');
-  };
+  modal.classList.remove("effect");
+}
 
-function reverse(player){
-  return player === -1 ? 1 : -1 ;
+function reverse(player) {
+  return player === -1 ? 1 : -1;
 }
