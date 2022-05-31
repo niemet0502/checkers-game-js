@@ -13,6 +13,12 @@ A checkers game is a group of strategy board games for two players which involve
 - [x] Display the count of piece for each player
 - [x] Display the winner at the end of the game
 
+## Next
+
+- [] Capture multiple opponent's pieces
+- [] Allow a piece to become a KING
+- [] Add serve and real time to play online
+
 ## Built By
 
-- Marius Vincent NIEMET - [https://twitter.com/mariusniemet05](twitter) [https://github.com/niemet0502](Github) [https://www.linkedin.com/in/marius-vincent-niemet-928b48182/](Linkedin)
+- Marius Vincent NIEMET - [twitter](https://twitter.com/mariusniemet05) [Github]]([https://github.com/niemet0502) [Linkedin](https://www.linkedin.com/in/marius-vincent-niemet-928b48182/)
