@@ -17,9 +17,9 @@ A checkers game is a group of strategy board games for two players which involve
 
 ## Next
 
-- [] Capture multiple opponent's pieces
-- [] Allow a piece to become a KING
-- [] Add serve and real time to play online
+- [ ] Capture multiple opponent's pieces
+- [ ] Allow a piece to become a KING
+- [ ] Add serve and real time to play online
 
 ## Built By
 
