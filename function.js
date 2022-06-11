@@ -13,7 +13,6 @@ function movePiece(e) {
   }
 
   if (currentPlayer === board[row][column]) {
-    console.log(p);
     player = reverse(currentPlayer);
     if (!findPieceCaptured(p, player)) {
       findPossibleNewPosition(p, player);
@@ -253,7 +252,6 @@ function findPieceCaptured(p, player) {
     });
   }
 
-  console.log(capturedPosition);
   return found;
 }
 
